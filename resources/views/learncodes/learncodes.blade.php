@@ -12,6 +12,8 @@
                     </div>
                     <div>
                         {{-- 投稿内容 --}}
+                        <p class="mb-0">{!! nl2br(e($learncode->title)) !!}</p>
+                        <p class="mb-0">{!! nl2br(e($learncode->language)) !!}</p>
                         <p class="mb-0">{!! nl2br(e($learncode->content)) !!}</p>
                     </div>
                     <div>

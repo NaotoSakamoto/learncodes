@@ -30,11 +30,15 @@ class LearncodesController extends Controller
     {
         // バリデーション
         $request->validate([
+            'title' => 'required|max:255',
+            'language' => 'required|max:255',
             'content' => 'required|max:255',
         ]);
 
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->learncodes()->create([
+            'title' => $request->title,
+            'language' => $request->language,
             'content' => $request->content,
         ]);
 
