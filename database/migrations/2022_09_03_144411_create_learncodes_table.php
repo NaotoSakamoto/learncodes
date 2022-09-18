@@ -20,7 +20,6 @@ class CreateLearncodesTable extends Migration
             $table->string('language');
             $table->string('content');
             $table->timestamps();
-            $table->boolean('is_record');
         });
     }
 

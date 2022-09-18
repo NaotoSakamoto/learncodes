@@ -24,7 +24,7 @@ class LearncodesController extends Controller
         // Welcomeビューでそれらを表示
         return view('welcome', $data);
     }
-
+    
     public function store(Request $request)
     {
         // バリデーション
@@ -33,9 +33,14 @@ class LearncodesController extends Controller
             'language' => 'required|max:255',
             'content' => 'required|max:255',
         ]);
+        
+        // ラジオボタン
+        // $radioGrp01 = $request->radioGrp01;
+        // var_dump($request->radioGrp01);
 
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->learncodes()->create([
+            'radioGrp01' => $request->radioGrp01,
             'title' => $request->title,
             'language' => $request->language,
             'content' => $request->content,
