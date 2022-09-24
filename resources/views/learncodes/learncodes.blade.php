@@ -12,7 +12,11 @@
                     </div>
                     <div>
                         {{-- 投稿内容 --}}
-                        <!--<p class="mb-0">{!! nl2br(e($learncode->radioGrp01)) !!}</p>-->
+                        @if ('radioGrp01' === 1)
+                            <p class="mb-0">{!! nl2br(e('学習記録')) !!}</p>
+                        @elseif ('radioGrp01' === 2)
+                            <p class="mb-0">{!! nl2br(e('質問')) !!}</p>
+                        @endif
                         <p class="mb-0">{!! nl2br(e($learncode->title)) !!}</p>
                         <p class="mb-0">{!! nl2br(e($learncode->language)) !!}</p>
                         <p class="mb-0">{!! nl2br(e($learncode->content)) !!}</p>
@@ -22,6 +26,19 @@
                             {{-- 投稿削除ボタンのフォーム --}}
                             {!! Form::open(['route' => ['learncodes.destroy', $learncode->id], 'method' => 'delete']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                            {!! Form::close() !!}
+                        @endif
+                    </div>
+                    <div>
+                        @if (Auth::user()->is_favoriting($learncode->id))
+                            {{-- お気に入り解除ボタンのフォーム --}}
+                            {!! Form::open(['route' => ['favorites.unfavorite', $learncode->id], 'method' => 'delete']) !!}
+                                {!! Form::submit('Unfavorite', ['class' => 'btn btn-danger btn-sm']) !!}
+                            {!! Form::close() !!}
+                        @else
+                            {{-- お気に入りボタンのフォーム --}}
+                            {!! Form::open(['route' => ['favorites.favorite', $learncode->id]]) !!}
+                                {!! Form::submit('Favorite',) !!}
                             {!! Form::close() !!}
                         @endif
                     </div>

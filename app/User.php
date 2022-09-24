@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Learncode;
 
 class User extends Authenticatable
 {
@@ -44,7 +45,7 @@ class User extends Authenticatable
     
     public function loadRelationshipCounts()
     {
-        $this->loadCount(['learncodes', 'followings', 'followers']);
+        $this->loadCount(['learncodes', 'followings', 'followers', 'favorites']);
     }
     
     /**
@@ -126,5 +127,49 @@ class User extends Authenticatable
         $userIds[] = $this->id;
         // それらのユーザが所有する投稿に絞り込む
         return Learncode::whereIn('user_id', $userIds);
+    }
+    
+    // 指定された $learncodeIdの投稿をこのユーザがお気に入り中であるか調べる
+    public function is_favoriting($learncodeId)
+    {
+        return $this->favorites()->where('learncode_id', $learncodeId)->exists();
+    }
+
+    // このユーザが登録したお気に入りの一覧を取得する
+    public function favorites()
+    {
+        return $this->belongsToMany(Learncode::class, 'favorites', 'user_id', 'learncode_id')->withTimestamps();
+    }
+
+    // お気に入りする
+    public function favorite($learncodeId)
+    {
+        // すでにお気に入りしているか
+        $exist = $this->is_favoriting($learncodeId);
+
+        if ($exist) {
+            // お気に入りの済み場合は何もしない
+            return false;
+        } else {
+            // 上記以外はお気に入りする
+            $this->favorites()->attach($learncodeId);
+            return true;
+        }
+    }
+
+    // お気に入りを解除する
+    public function unfavorite($learncodeId)
+    {
+        // すでにお気に入りしているか
+        $exist = $this->is_favoriting($learncodeId);
+
+        if ($exist) {
+            // お気に入り済みの場合は外す
+            $this->favorites()->detach($learncodeId);
+            return true;
+        } else {
+            // 上記以外の場合は何もしない
+            return false;
+        }  
     }
 }

@@ -16,6 +16,7 @@ class CreateLearncodesTable extends Migration
         Schema::create('learncodes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->integer('radioGrp01')->unsigned();
             $table->string('title');
             $table->string('language');
             $table->string('content');

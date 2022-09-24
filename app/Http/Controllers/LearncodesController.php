@@ -47,7 +47,7 @@ class LearncodesController extends Controller
         ]);
 
         // 前のURLへリダイレクトさせる
-        return back();
+       return back();
     }
     
     public function destroy($id)
