@@ -33,10 +33,6 @@ class LearncodesController extends Controller
             'language' => 'required|max:255',
             'content' => 'required|max:255',
         ]);
-        
-        // ラジオボタン
-        // $radioGrp01 = $request->radioGrp01;
-        // var_dump($request->radioGrp01);
 
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->learncodes()->create([

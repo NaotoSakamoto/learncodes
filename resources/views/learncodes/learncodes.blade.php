@@ -12,10 +12,10 @@
                     </div>
                     <div>
                         {{-- 投稿内容 --}}
-                        @if ('radioGrp01' === 1)
-                            <p class="mb-0">{!! nl2br(e('学習記録')) !!}</p>
-                        @elseif ('radioGrp01' === 2)
-                            <p class="mb-0">{!! nl2br(e('質問')) !!}</p>
+                        @if (($learncode->radioGrp01) == 1)
+                            <p class="mb-0">学習記録</p>
+                        @elseif (($learncode->radioGrp01) == 2)
+                            <p class="mb-0">質問</p>
                         @endif
                         <p class="mb-0">{!! nl2br(e($learncode->title)) !!}</p>
                         <p class="mb-0">{!! nl2br(e($learncode->language)) !!}</p>
