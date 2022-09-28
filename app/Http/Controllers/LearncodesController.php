@@ -59,4 +59,34 @@ class LearncodesController extends Controller
         // 前のURLへリダイレクトさせる
         return back();
     }
+    
+    public function edit($id)
+    {
+        // idの値で投稿を検索して取得
+        $learncode = \App\Learncode::findOrFail($id);
+        
+        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を編集
+        if (\Auth::id() === $learncode->user_id) {
+            // マイクロポスト編集ビューでそれを表示
+            return view('learncodes.edit', [
+                'learncode' => $learncode,
+            ]);
+        }
+    }
+    
+    // putまたはpatchでlearncode/idにアクセスされた場合の「更新処理」
+    public function update(Request $request, $id)
+    {
+        // idの値で投稿を検索して取得
+        $learncode = \App\Learncode::findOrFail($id);
+        // 投稿を更新
+        $learncode->title = $request->title;
+        $learncode->language = $request->language;
+        $learncode->content = $request->content;
+        $learncode->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
+    }
 }
+

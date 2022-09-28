@@ -42,6 +42,8 @@
                             {!! Form::close() !!}
                         @endif
                     </div>
+                    {{-- 編集ページへのリンク --}}
+                    {!! link_to_route('learncodes.edit', 'Edit', ['learncode' => $learncode->id], ['class' => 'btn btn-light']) !!}
                 </div>
             </li>
         @endforeach
