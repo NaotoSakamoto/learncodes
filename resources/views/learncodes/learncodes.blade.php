@@ -12,38 +12,45 @@
                     </div>
                     <div>
                         {{-- 投稿内容 --}}
+                        {{-- 詳細画面で同じものを表示 --}}
                         @if (($learncode->radioGrp01) == 1)
                             <p class="mb-0">学習記録</p>
                         @elseif (($learncode->radioGrp01) == 2)
                             <p class="mb-0">質問</p>
                         @endif
-                        <p class="mb-0">{!! nl2br(e($learncode->title)) !!}</p>
-                        <p class="mb-0">{!! nl2br(e($learncode->language)) !!}</p>
-                        <p class="mb-0">{!! nl2br(e($learncode->content)) !!}</p>
+                        <p class="mb-0">タイトル：{!! nl2br(e($learncode->title)) !!}</p>
+                        <p class="mb-0">言語：{!! nl2br(e($learncode->language)) !!}</p>
+                        <p class="mb-0">本文：{!! nl2br(e($learncode->content)) !!}</p>
                     </div>
-                    <div>
-                        @if (Auth::id() == $learncode->user_id)
-                            {{-- 投稿削除ボタンのフォーム --}}
-                            {!! Form::open(['route' => ['learncodes.destroy', $learncode->id], 'method' => 'delete']) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                            {!! Form::close() !!}
-                        @endif
+                    
+                    {{-- 以下詳細画面に移動検討 --}}
+                    <div style="display:flex">
+                        <div style="margin-right:3px">
+                            @if (Auth::id() == $learncode->user_id)
+                                {{-- 投稿削除ボタンのフォーム --}}
+                                {!! Form::open(['route' => ['learncodes.destroy', $learncode->id], 'method' => 'delete']) !!}
+                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+                            @endif
+                        </div>
+                        <div style="margin-right:3px">
+                            @if (Auth::user()->is_favoriting($learncode->id))
+                                {{-- お気に入り解除ボタンのフォーム --}}
+                                {!! Form::open(['route' => ['favorites.unfavorite', $learncode->id], 'method' => 'delete']) !!}
+                                    {!! Form::submit('Unfavorite', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+                            @else
+                                {{-- お気に入りボタンのフォーム --}}
+                                {!! Form::open(['route' => ['favorites.favorite', $learncode->id]]) !!}
+                                    {!! Form::submit('Favorite', ['class' => 'btn btn-secondary btn-sm']) !!}
+                                {!! Form::close() !!}
+                            @endif
+                        </div>
+                        {{-- 編集ページへのリンク --}}
+                        {!! link_to_route('learncodes.edit', 'Edit', ['learncode' => $learncode->id], ['class' => 'btn btn-light btn-sm']) !!}
+                        {{-- 詳細ページへのリンク --}}
+                        {!! link_to_route('learncodes.show', 'Show', ['learncode' => $learncode->id], ['class' => 'btn btn-info btn-sm']) !!}
                     </div>
-                    <div>
-                        @if (Auth::user()->is_favoriting($learncode->id))
-                            {{-- お気に入り解除ボタンのフォーム --}}
-                            {!! Form::open(['route' => ['favorites.unfavorite', $learncode->id], 'method' => 'delete']) !!}
-                                {!! Form::submit('Unfavorite', ['class' => 'btn btn-danger btn-sm']) !!}
-                            {!! Form::close() !!}
-                        @else
-                            {{-- お気に入りボタンのフォーム --}}
-                            {!! Form::open(['route' => ['favorites.favorite', $learncode->id]]) !!}
-                                {!! Form::submit('Favorite',) !!}
-                            {!! Form::close() !!}
-                        @endif
-                    </div>
-                    {{-- 編集ページへのリンク --}}
-                    {!! link_to_route('learncodes.edit', 'Edit', ['learncode' => $learncode->id], ['class' => 'btn btn-light']) !!}
                 </div>
             </li>
         @endforeach

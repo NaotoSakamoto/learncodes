@@ -67,7 +67,7 @@ class LearncodesController extends Controller
         
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を編集
         if (\Auth::id() === $learncode->user_id) {
-            // マイクロポスト編集ビューでそれを表示
+            // 投稿編集ビューでそれを表示
             return view('learncodes.edit', [
                 'learncode' => $learncode,
             ]);
@@ -87,6 +87,18 @@ class LearncodesController extends Controller
 
         // トップページへリダイレクトさせる
         return redirect('/');
+    }
+    
+    // 投稿の詳細画面を追加
+    public function show($id)
+    {
+        // idの値で投稿を検索して取得
+        $learncode = \App\Learncode::findOrFail($id);
+        
+        // 投稿詳細ビューでそれを表示
+        return view('learncodes.show', [
+            'learncode' => $learncode,
+        ]);
     }
 }
 

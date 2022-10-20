@@ -39,5 +39,5 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('unfavorite', 'FavoritesController@destroy')->name('favorites.unfavorite');
     });
 
-    Route::resource('learncodes', 'LearncodesController', ['only' => ['store', 'destroy', 'edit', 'update']]);
+    Route::resource('learncodes', 'LearncodesController', ['only' => ['store', 'destroy', 'edit', 'update', 'show']]);
 });
