@@ -172,4 +172,13 @@ class User extends Authenticatable
             return false;
         }  
     }
+    
+    // コメントとの関係を追加
+    /**
+     * このユーザが所有する投稿。（ Commentモデルとの関係を定義）
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
