@@ -42,5 +42,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('learncodes', 'LearncodesController', ['only' => ['store', 'destroy', 'edit', 'update', 'show']]);
     
     // 追加（コメント機能）
-    Route::resource('comment', 'CommentsController', ['only' => ['store']]);
+    Route::resource('comment', 'CommentsController', ['only' => ['store', 'destroy', 'edit', 'update', 'show']]);
 });
