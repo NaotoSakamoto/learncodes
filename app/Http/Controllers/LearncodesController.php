@@ -95,13 +95,16 @@ class LearncodesController extends Controller
         // idの値で投稿を検索して取得
         $learncode = \App\Learncode::findOrFail($id);
         $content = new \App\Comment();
-        
+        $comments = \App\Comment::where('learncode_id', $learncode->id)->get();
+
         $content->learncode_id = $learncode->id;
         
         // 投稿詳細ビューでそれを表示
         return view('learncodes.show', [
             'learncode' => $learncode,
             'content' => $content,
+            'comments' => $comments, 
+
         ]);
     }
 }

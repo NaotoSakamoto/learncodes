@@ -11,12 +11,14 @@ class CommentsController extends Controller
         $request->validate([
             'content' => 'required|max:500',
         ]);
-        
+
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $request->user()->learncodes()->create([
-            'content' => $request->content,
+        $request->user()->comments()->create([
+            'learncode_id' => array_keys($request->query())[0],
+            'comment' => "'" . $request->content . "'"
         ]);
 
+        
         // 前のURLへリダイレクトさせる
         return back();
     }
