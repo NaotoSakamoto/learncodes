@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('favorites', 'UsersController@favorites')->name('users.favorites');
     });
 
-    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+    Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'destroy']]);
     
     // 追加
     Route::group(['prefix' => 'learncodes/{id}'], function () {
@@ -43,4 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
     
     // 追加（コメント機能）
     Route::resource('comment', 'CommentsController', ['only' => ['store', 'destroy', 'edit', 'update', 'show']]);
+    
+    Route::group(['prefix' => 'usrs/{id}'], function () {
+        Route::get('account_delete_confirmation', 'UsersController@confirmation')->name('account_delete.confirmation');
+    });
 });

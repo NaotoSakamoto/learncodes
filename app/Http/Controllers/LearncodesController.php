@@ -56,8 +56,8 @@ class LearncodesController extends Controller
             $learncode->delete();
         }
 
-        // 前のURLへリダイレクトさせる
-        return back();
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
     
     public function edit($id)

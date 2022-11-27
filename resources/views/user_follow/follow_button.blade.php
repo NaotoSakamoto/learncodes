@@ -11,3 +11,6 @@
         {!! Form::close() !!}
     @endif
 @endif
+
+{{-- 削除確認ページへのリンク --}}
+{!! link_to_route('account_delete.confirmation', 'Delete this account', ['id' => $user->id], ['class' => "btn btn-danger btn-block"]) !!}

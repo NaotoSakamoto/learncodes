@@ -102,4 +102,26 @@ class UsersController extends Controller
             'learncodes' => $learncodes,
         ]);
     }
+    
+    public function destroy($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+
+        // ユーザを削除
+        $user->delete();
+
+        // リダイレクト
+        return redirect('/');
+    }
+
+    public function confirmation($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+
+        return view('account_delete.confirmation', [
+            'user' => $user, 
+        ]);
+    }
 }
