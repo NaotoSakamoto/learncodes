@@ -103,25 +103,36 @@ class UsersController extends Controller
         ]);
     }
     
-    public function destroy($id)
-    {
-        // idの値でユーザを検索して取得
-        $user = User::findOrFail($id);
-
-        // ユーザを削除
-        $user->delete();
-
-        // リダイレクト
-        return redirect('/');
-    }
-
     public function confirmation($id)
     {
         // idの値でユーザを検索して取得
         $user = User::findOrFail($id);
+        
+        // 認証済みユーザ（閲覧者）がそのアカウントの所有者である場合のみ、アカウント削除画面に遷移
+        if(\Auth::id() === $user->id){
+            return view('account_delete.confirmation', [
+                'user' => $user, 
+            ]);
+        }
+        
+        // リダイレクト
+        return back();
+    }
+    
+    public function destroy($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+            
+        // 認証済みユーザ（閲覧者）がそのアカウントの所有者である場合のみ、アカウントを削除
+        if(\Auth::id() === $user->id){
+            // ユーザを削除
+            $user->delete();
+        }
 
-        return view('account_delete.confirmation', [
-            'user' => $user, 
-        ]);
+        // リダイレクト
+        return redirect('/');
     }
 }
+
+
